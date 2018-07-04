@@ -15,7 +15,27 @@ int main(int argc, char** argv) {
         doge : <phrase>*; \
         ",
         Adjective, Noun, Phrase, Doge);
+    
     /* Do some parsing here... */
+    mpc_result_t r;
+    if (argc > 1) {
+        if (mpc_parse_contents(argv[1], Doge, &r)) {
+          mpc_ast_print(r.output);
+          mpc_ast_delete(r.output);
+        } else {
+          mpc_err_print(r.error);
+          mpc_err_delete(r.error);
+        }
+    } else {
+        if (mpc_parse_pipe("<stdin>", stdin, Doge, &r)) {
+          mpc_ast_print(r.output);
+          mpc_ast_delete(r.output);
+        } else {
+          mpc_err_print(r.error);
+          mpc_err_delete(r.error);
+        }
+    }
+
     mpc_cleanup(4, Adjective, Noun, Phrase, Doge);
     return 0;
 }

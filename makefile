@@ -1,13 +1,13 @@
 CC=gcc
 SRC=./src
-CFLAGS=-I$(SRC)
+CSTD=-std=c99
+CFLAGS=$(CSTD) -I$(SRC) -Wall
 OUTPUT=.
+LIBDIR=./lib
+LIB_MPC=$(LIBDIR)/mpc.c
 
-# $(OUTPUT)/%.o: $(SRC)/%.c
-#	$(CC) -std=c99 -Wall $@ $< $(CFLAGS)
-
-promptmake:
-	$(CC) -std=c99 -Wall $(SRC)/prompt.c -o $(OUTPUT)/prompt 
+prompt: $(SRC)/prompt.c
+	$(CC) $(CFLAGS) $^ $(LIB_MPC) -lm -o $(OUTPUT)/$@ 
 
 clean:
 	rm -f $(OUTPUT)/prompt*

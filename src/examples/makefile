@@ -7,6 +7,6 @@
 .PHONY: doge_code doge_grammar
 
 doge_code:
-	gcc -Wall -std=c99 doge_code.c ../../lib/mpc.c -o exampleDoge
+	gcc -Wall -std=c99 doge_code.c ../../lib/mpc.c -lm -o exampleDoge
 doge_grammar:
-	gcc -Wall -std=c99 doge_grammar.c ../../lib/mpc.c -o exampleDogeGrammar 
+	gcc -Wall -std=c99 doge_grammar.c ../../lib/mpc.c -lm -o exampleDogeGrammar 
