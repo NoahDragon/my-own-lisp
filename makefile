@@ -1,4 +1,4 @@
-CC 		= gcc
+CC 	= gcc
 SRC 	= ./src
 CSTD 	= -std=c99
 CFLAGS 	= $(CSTD) -I$(SRC) -Wall
