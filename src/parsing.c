@@ -24,8 +24,8 @@ void stdin_parser(const char* input){
     /* Attempt to parse the user input */
     mpc_result_t r;
     if(mpc_parse("<stdin>", input, Lispy, &r)) {
-        long result = eval(r.output);
-        printf("%li\n", result);
+        lval result = eval(r.output);
+        lval_println(result);
         mpc_ast_delete(r.output);
     } else {
         /* Otherwise print and delete the Error */
