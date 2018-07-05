@@ -10,7 +10,7 @@ void polish_notation(){
     "                                                       \
         number      : /-?[0-9]+/ ;                          \
         operator    : '+' | '-' | '*' | '/';                \
-        expr        : <number> | '(' <operator> <expr>+ ')' ;\
+        expr        : <number> | '(' <operator> <expr>+ ')';\
         lispy       : /^/ <operator> <expr>+ /$/ ;          \
     ",
     Number, Operator, Expr, Lispy);
@@ -24,8 +24,8 @@ void stdin_parser(const char* input){
     /* Attempt to parse the user input */
     mpc_result_t r;
     if(mpc_parse("<stdin>", input, Lispy, &r)) {
-        /* On success print and delete the AST */
-        mpc_ast_print(r.output);
+        long result = eval(r.output);
+        printf("%li\n", result);
         mpc_ast_delete(r.output);
     } else {
         /* Otherwise print and delete the Error */

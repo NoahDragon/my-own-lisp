@@ -5,7 +5,8 @@
 extern "C" {
 #endif
 
-#include "../lib/mpc.h"
+#include "mpc.h"
+#include "eval.h"
 
 mpc_parser_t* Number;
 mpc_parser_t* Operator;
