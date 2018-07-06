@@ -1,5 +1,7 @@
 # Others
 .vscode
+prompt
+debug
 
 # Prerequisites
 *.d
