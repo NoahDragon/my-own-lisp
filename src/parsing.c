@@ -4,6 +4,7 @@ void polish_notation(){
     Number = mpc_new("number");
     Symbol = mpc_new("symbol");
     Sexpr = mpc_new("sexpr");
+    Qexpr = mpc_new("qexpr");
     Expr = mpc_new("expr");
     Lispy = mpc_new("lispy");
 
@@ -11,15 +12,16 @@ void polish_notation(){
     "                                                       \
         number      : /-?[0-9]+/ ;                          \
         symbol      : '+' | '-' | '*' | '/';                \
-        sexpr       : '(' <expr>* ')' ;                      \
-        expr        : <number> | <symbol> | <sexpr> ;       \
-        lispy       : /^/ <expr>* /$/ ;            \
+        sexpr       : '(' <expr>* ')' ;                     \
+        qexpr       : '{' <expr>* '}' ;                     \
+        expr        : <number> | <symbol> | <sexpr> | <qexpr> ;       \
+        lispy       : /^/ <expr>* /$/ ;                     \
     ",
-    Number, Symbol, Sexpr, Expr, Lispy);
+    Number, Symbol, Sexpr, Qexpr, Expr, Lispy);
 }
 
 void clear_polish_notation(){
-    mpc_cleanup(5, Number, Symbol, Sexpr, Expr, Lispy);
+    mpc_cleanup(6, Number, Symbol, Sexpr, Qexpr, Expr, Lispy);
 }
 
 void stdin_parser(const char* input){

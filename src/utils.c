@@ -9,7 +9,7 @@ char* lang_name_string_builder(char* str){
     return buffer;
 }
 
-void strcpy_with_malloc(char** t, char* s){
+void strcpy_with_malloc(char** t, const char* s){
     *t = malloc(strlen(s) + 1);
     strcpy(*t, s);
 }

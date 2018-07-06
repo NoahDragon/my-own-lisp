@@ -25,7 +25,8 @@ enum {
     LVAL_NUM,
     LVAL_ERR,
     LVAL_SYM,
-    LVAL_SEXPR
+    LVAL_SEXPR,
+    LVAL_QEXPR
 };
 
 /* Create Enumeration of Possible Error Types */
@@ -39,6 +40,7 @@ lval* lval_num(long);
 lval* lval_err(char*);
 lval* lval_sym(char*);
 lval* lval_sexpr(void);
+lval* lval_qexpr(void);
 void lval_del(lval*);
 void lval_expr_print(lval*, char, char);
 void lval_print(lval*);

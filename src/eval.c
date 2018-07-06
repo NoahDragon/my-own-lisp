@@ -33,6 +33,15 @@ lval* lval_sexpr() {
     return v;
 }
 
+/* A pointer to a new empty Qexpr lval */
+lval* lval_qexpr() {
+    lval* v = malloc(sizeof(lval));
+    v->type = LVAL_QEXPR;
+    v->count = 0;
+    v->cell = NULL;
+    return v;
+}
+
 lval* lval_read_num(mpc_ast_t* t) {
     errno = 0;
     long x = strtol(t->contents, (char**)NULL, 10);
@@ -54,12 +63,18 @@ lval* lval_read(mpc_ast_t* t) {
         x = lval_sexpr();
     if(strstr(t->tag, "sexpr"))
         x = lval_sexpr();
+    if(strstr(t->tag, "qexpr"))
+        x = lval_qexpr();
 
     /* Fill this list with any valid expression contained within */
     for (int i = 0; i < t->children_num; i++) {
         if (strcmp(t->children[i]->contents, "(") == 0)
             continue;
         if (strcmp(t->children[i]->contents, ")") == 0)
+            continue;
+        if (strcmp(t->children[i]->contents, "{") == 0)
+            continue;
+        if (strcmp(t->children[i]->contents, "}") == 0)
             continue;
         if (strcmp(t->children[i]->tag, "regex") == 0)
             continue;
@@ -196,7 +211,8 @@ void lval_del(lval* v) {
         case LVAL_SYM:
             free(v->sym);
             break;
-        /* If Sexpr then delete all elements inside */
+        /* If Sexpr or Qexpr then delete all elements inside */
+        case LVAL_QEXPR:
         case LVAL_SEXPR:
             for (int i = 0; i < v->count; i++){
                 lval_del(v->cell[i]);
@@ -239,6 +255,9 @@ void lval_print(lval* v){
             break;
         case LVAL_SEXPR:
             lval_expr_print(v, '(', ')');
+            break;
+        case LVAL_QEXPR:
+            lval_expr_print(v, '{', '}');
             break;
     }
 }
