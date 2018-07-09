@@ -11,10 +11,13 @@ void polish_notation(){
     mpca_lang(MPCA_LANG_DEFAULT,
     "                                                       \
         number      : /-?[0-9]+/ ;                          \
-        symbol      : '+' | '-' | '*' | '/';                \
+        symbol      : '+' | '-' | '*' | '/'                 \
+                    | \"list\" | \"head\" | \"tail\"        \
+                    | \"join\" | \"eval\" ;                 \
         sexpr       : '(' <expr>* ')' ;                     \
         qexpr       : '{' <expr>* '}' ;                     \
-        expr        : <number> | <symbol> | <sexpr> | <qexpr> ;       \
+        expr        : <number> | <symbol> | <sexpr>         \
+                    | <qexpr> ;                             \
         lispy       : /^/ <expr>* /$/ ;                     \
     ",
     Number, Symbol, Sexpr, Qexpr, Expr, Lispy);

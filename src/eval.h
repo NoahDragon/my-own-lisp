@@ -8,6 +8,9 @@ extern "C" {
 #include "mpc.h"
 #include "utils.h"
 
+#define LASSERT(args, cond, err) \
+  if (!(cond)) { lval_del(args); return lval_err(err); }
+
 /* Declare new lval struct */
 typedef struct lval {
     int type;
@@ -53,6 +56,13 @@ lval* lval_eval(lval*);
 lval* lval_pop(lval*, int);
 lval* lval_take(lval*, int);
 lval* builtin_op(lval*, char*);
+lval* builtin_head(lval*);
+lval* builtin_tail(lval*);
+lval* builtin_list(lval*);
+lval* builtin_eval(lval*);
+lval* builtin_join(lval*);
+lval* lval_join(lval*, lval*);
+lval* builtin(lval*, char*);
 
 #ifdef __cplusplus
 }
