@@ -32,17 +32,17 @@ void prompt(int argc, char** argv) {
     puts(lang_name_string_builder(" Version 0.0.0.0.1"));
     puts("Press Ctrl+c to Exit\n");
 
-    polish_notation();
+    prepareMOL();
 
     while (1) {
         /* Now in either case readline will be correctly defined */
         char* input = readline(lang_name_string_builder("> "));
         add_history(input);
-        
+
         stdin_parser(input);
 
         free(input);
     }
 
-    clean_polish_notation();
+    clearMOL();
 }

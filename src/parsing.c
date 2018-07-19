@@ -1,6 +1,6 @@
 #include "parsing.h"
 
-void polish_notation(){
+void prepareMOL(){
     Number = mpc_new("number");
     Symbol = mpc_new("symbol");
     Sexpr = mpc_new("sexpr");
@@ -11,9 +11,7 @@ void polish_notation(){
     mpca_lang(MPCA_LANG_DEFAULT,
     "                                                       \
         number      : /-?[0-9]+/ ;                          \
-        symbol      : '+' | '-' | '*' | '/'                 \
-                    | \"list\" | \"head\" | \"tail\"        \
-                    | \"join\" | \"eval\" ;                 \
+        symbol      : /[a-zA-Z0-9_+\\-*\\/\\\\=<>!&]+/ ;    \
         sexpr       : '(' <expr>* ')' ;                     \
         qexpr       : '{' <expr>* '}' ;                     \
         expr        : <number> | <symbol> | <sexpr>         \
@@ -21,9 +19,12 @@ void polish_notation(){
         lispy       : /^/ <expr>* /$/ ;                     \
     ",
     Number, Symbol, Sexpr, Qexpr, Expr, Lispy);
+
+    e = lenv_new();
+    lenv_add_builtins(e);
 }
 
-void clear_polish_notation(){
+void clearMOL(){
     mpc_cleanup(6, Number, Symbol, Sexpr, Qexpr, Expr, Lispy);
 }
 
@@ -31,7 +32,7 @@ void stdin_parser(const char* input){
     /* Attempt to parse the user input */
     mpc_result_t r;
     if(mpc_parse("<stdin>", input, Lispy, &r)) {
-        lval* result = lval_eval(lval_read(r.output));
+        lval* result = lval_eval(e, lval_read(r.output));
         //lval* result = lval_read(r.output);
         lval_println(result);
         lval_del(result);
